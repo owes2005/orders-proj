@@ -1,10 +1,10 @@
 export interface Order {
-  id: number;
+  id?: string;
   customerName: string;
   status: 'ON_ROUTE' | 'DELIVERED';
   latitude: number;
   longitude: number;
 
   amount: number;
-  createdAt: string;
+  createdAt?: string;
 }

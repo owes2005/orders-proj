@@ -17,7 +17,13 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     this.ordersService.loadOrders();
-  }
+     setTimeout(() => {
+    if (!this.ordersService.hasOrdersForToday()) {
+      this.ordersService.generateDemoOrders(6);
+    }
+  }, 300);
+}
+  
 
   formatCurrency(amount: number): string {
     return `₹${amount.toLocaleString('en-IN')}`;
