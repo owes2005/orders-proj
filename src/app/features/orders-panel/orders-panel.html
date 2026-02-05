@@ -1,0 +1,36 @@
+<div class="orders-panel-header">
+  <h2>Orders Panel</h2>
+  <span class="orders-count">{{ orders().length }} orders</span>
+</div>
+
+<div class="orders-panel">
+  <!-- Orders list -->
+  <mat-card
+    *ngFor="let o of orders()"
+    class="order-card"
+    [class.active]="selectedOrder()?.id === o.id"
+    (click)="select(o)"
+  >
+    <div class="top">
+      <span class="order-id">#{{ o.id }}</span>
+
+      <mat-chip
+        *ngIf="o.status === 'ON_ROUTE'"
+        class="status on_route"
+        selected>
+        ON ROUTE
+      </mat-chip>
+
+      <mat-chip
+        *ngIf="o.status === 'DELIVERED'"
+        class="status delivered"
+        selected>
+        DELIVERED
+      </mat-chip>
+    </div>
+
+    <div class="customer">
+      {{ o.customerName }}
+    </div>
+  </mat-card>
+</div>

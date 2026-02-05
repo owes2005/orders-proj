@@ -1,0 +1,67 @@
+<div class="dashboard-stats">
+  <div class="stats-row">
+    <mat-card class="stat-card orders-card">
+      <mat-card-header>
+        <mat-card-title>Orders Today</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="stat-value">{{ todaysOrdersCount() }}</span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card revenue-card">
+      <mat-card-header>
+        <mat-card-title>Revenue Today</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="stat-value">{{ formatCurrency(todaysRevenue()) }}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="charts-row">
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Revenue Overview</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #revenueChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Top Orders of the Day</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #topOrdersChart></canvas>
+        </div>
+        @if (topOrders().length === 0) {
+          <p class="no-data-overlay">No orders today yet.</p>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card class="top-orders-list-card">
+    <mat-card-header>
+      <mat-card-title>Top 5 Orders</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="orders-list">
+        @for (order of topOrders(); track order.id) {
+          <div class="order-row">
+            <span class="rank">#{{ $index + 1 }}</span>
+            <span class="customer">{{ order.customerName }}</span>
+            <span class="amount">{{ formatCurrency(order.amount) }}</span>
+            <mat-chip [class]="order.status === 'DELIVERED' ? 'delivered' : 'on_route'" class="status-chip">
+              {{ order.status === 'DELIVERED' ? 'Delivered' : 'On Route' }}
+            </mat-chip>
+          </div>
+        }
+        @empty {
+          <p class="no-data">No orders today yet.</p>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

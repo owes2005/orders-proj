@@ -1,0 +1,94 @@
+{
+  "orders": [
+    {
+      "id": 1,
+      "customerName": "Rahul Sharma",
+      "status": "ON_ROUTE",
+      "latitude": 13.146626460495217,
+      "longitude": 77.44049846369992,
+      "createdAt": "2026-02-04T09:15:00",
+      "amount": 1200
+    },
+    {
+      "id": 2,
+      "customerName": "Ayesha Khan",
+      "status": "ON_ROUTE",
+      "latitude": 13.046191724078147,
+      "longitude": 80.25303620762249,
+      "createdAt": "2026-02-04T10:40:00",
+      "amount": 950
+    },
+    {
+      "id": 3,
+      "customerName": "Arjun Verma",
+      "status": "DELIVERED",
+      "latitude": 17.385,
+      "longitude": 78.4867,
+      "createdAt": "2026-02-04T18:20:00",
+      "amount": 1800
+    },
+    {
+      "id": 4,
+      "customerName": "Sneha Iyer",
+      "status": "ON_ROUTE",
+      "latitude": 10.026844412632661,
+      "longitude": 76.23175307985788,
+      "createdAt": "2026-02-04T11:05:00",
+      "amount": 1500
+    },
+    {
+      "id": 5,
+      "customerName": "Vikram Rao",
+      "status": "ON_ROUTE",
+      "latitude": 13.081884940548976,
+      "longitude": 77.51834420587785,
+      "createdAt": "2026-02-04T12:10:00",
+      "amount": 2200
+    },
+    {
+      "id": 6,
+      "customerName": "Neha Patel",
+      "status": "DELIVERED",
+      "latitude": 23.022505,
+      "longitude": 72.571362,
+      "createdAt": "2026-02-04T09:45:00",
+      "amount": 1350
+    },
+    {
+      "id": 7,
+      "customerName": "Mohammed Ali",
+      "status": "ON_ROUTE",
+      "latitude": 18.986362836401806,
+      "longitude": 72.73625965845604,
+      "createdAt": "2026-02-04T13:00:00",
+      "amount": 800
+    },
+    {
+      "id": 8,
+      "customerName": "Pooja Singh",
+      "status": "ON_ROUTE",
+      "latitude": 28.683832863661497,
+      "longitude": 77.11086767999481,
+      "createdAt": "2026-02-04T08:30:00",
+      "amount": 1100
+    },
+    {
+      "id": 9,
+      "customerName": "Rohan Mehta",
+      "status": "DELIVERED",
+      "latitude": 26.9124,
+      "longitude": 75.7873,
+      "createdAt": "2026-02-04T20:15:00",
+      "amount": 1750
+    },
+    {
+      "id": 10,
+      "customerName": "Ananya Das",
+      "status": "ON_ROUTE",
+      "latitude": 22.51561332317197,
+      "longitude": 88.42103506278843,
+      "createdAt": "2026-02-04T14:25:00",
+      "amount": 990
+    }
+  ]
+}

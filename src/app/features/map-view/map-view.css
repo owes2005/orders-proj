@@ -1,0 +1,154 @@
+/* Component root - fill flex parent */
+:host {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Map container - absolute fill so Leaflet gets explicit dimensions */
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 300px;
+}
+
+/* Leaflet popup styling */
+:host ::ng-deep .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+:host ::ng-deep .leaflet-popup-content {
+  margin: 10px 12px;
+}
+
+:host ::ng-deep .leaflet-popup-tip {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Delivery bike marker (custom PNG) */
+:host ::ng-deep .marker-icon {
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Delivered bike – muted so it reads as “done” */
+:host ::ng-deep .marker-icon--delivered {
+  filter: grayscale(100%);
+  opacity: 0.65;
+}
+
+:host ::ng-deep .marker-icon--top {
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9));
+}
+
+:host ::ng-deep .marker-icon--top.marker-icon--delivered {
+  filter: grayscale(100%) drop-shadow(0 0 4px rgba(245, 158, 11, 0.6));
+  opacity: 0.8;
+}
+
+:host ::ng-deep .marker-icon--today:not(.marker-icon--top) {
+  filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.6));
+}
+
+/* Hover feedback */
+:host ::ng-deep .marker-icon:hover {
+  transform: scale(1.08);
+}
+
+/* Floating controls */
+.map-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.map-controls button {
+  background: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s ease;
+}
+
+.map-controls button:hover {
+  background: #1976d2;
+  color: #ffffff;
+}
+
+/* Order details card */
+.order-details {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  min-width: 260px;
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+.order-details-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.order-id {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.order-details-body {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.customer-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.coords {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Status badges */
+.status {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status.on_route {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status.delivered {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Prevent scrollbars */
+app-map-view,
+.dashboard {
+  overflow: hidden;
+}

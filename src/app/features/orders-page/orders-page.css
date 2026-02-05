@@ -1,0 +1,25 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.orders-page {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+app-orders-panel {
+  width: 340px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.02);
+}
+
+app-map-view {
+  flex: 1;
+  position: relative;
+}

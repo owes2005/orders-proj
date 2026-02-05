@@ -1,0 +1,34 @@
+<aside class="sidebar" [class.collapsed]="collapsed()">
+  <div class="sidebar-header">
+    <a routerLink="/" class="brand" (click)="collapsed() && toggleCollapse()">
+      <span class="material-icons brand-icon">local_shipping</span>
+      @if (!collapsed()) {
+        <span class="brand-text">Logistics</span>
+      }
+    </a>
+    <button class="collapse-btn" (click)="toggleCollapse()" [attr.aria-label]="collapsed() ? 'Expand' : 'Collapse'">
+      <span class="material-icons">{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</span>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    @for (item of navItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="item.exact ? { exact: true } : { exact: false }"
+        class="nav-item">
+        <span class="material-icons nav-icon">{{ item.icon }}</span>
+        @if (!collapsed()) {
+          <span class="nav-label">{{ item.label }}</span>
+        }
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    @if (!collapsed()) {
+      <span class="footer-text">Delivery & Orders</span>
+    }
+  </div>
+</aside>

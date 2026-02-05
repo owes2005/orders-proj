@@ -1,0 +1,38 @@
+<!-- Floating map controls -->
+<div class="map-controls">
+  <button (click)="toggleGps()">
+    {{ gpsService.isRunning() ? 'Pause GPS' : 'Resume GPS' }}
+  </button>
+
+  <button (click)="autoFollow = !autoFollow">
+    {{ autoFollow ? 'Disable Follow' : 'Enable Follow' }}
+  </button>
+</div>
+
+<!-- Leaflet map -->
+<div id="map"></div>
+
+<!-- Selected order details -->
+<div class="order-details" *ngIf="selectedOrder() as o">
+  <div class="order-details-header">
+    <div class="order-id">#{{ o.id }}</div>
+
+    <span
+      class="status"
+      [class.on_route]="o.status === 'ON_ROUTE'"
+      [class.delivered]="o.status === 'DELIVERED'">
+      {{ o.status.replace('_', ' ') }}
+    </span>
+  </div>
+
+  <div class="order-details-body">
+    <div class="customer-name">
+      {{ o.customerName }}
+    </div>
+
+    <div class="coords">
+      {{ o.latitude | number:'1.4-4' }},
+      {{ o.longitude | number:'1.4-4' }}
+    </div>
+  </div>
+</div>

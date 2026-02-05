@@ -1,0 +1,90 @@
+<div class="dashboard">
+  <header class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p class="subtitle">Delivery &amp; Orders Overview</p>
+    </div>
+  </header>
+
+  <div class="dashboard-grid">
+    <div class="widget-card kpi-orders">
+      <div class="widget-header">
+        <span class="material-icons widget-icon">inventory_2</span>
+        <h3>Orders Today</h3>
+      </div>
+      <div class="widget-value">{{ todaysOrders.length }}</div>
+      <a routerLink="/orders" class="widget-link">View all orders</a>
+    </div>
+
+    <div class="widget-card kpi-revenue">
+      <div class="widget-header">
+        <span class="material-icons widget-icon">payments</span>
+        <h3>Revenue Today</h3>
+      </div>
+      <div class="widget-value">{{ formatCurrency(todaysRevenue) }}</div>
+      <a routerLink="/analytics" class="widget-link">View analytics</a>
+    </div>
+
+    <div class="widget-card kpi-map">
+      <div class="widget-header">
+        <span class="material-icons widget-icon">map</span>
+        <h3>Live Tracking</h3>
+      </div>
+      <p class="widget-desc">{{ todaysOrders.length }} orders on the map</p>
+      <a routerLink="/map" class="widget-link">Open map view</a>
+    </div>
+  </div>
+
+  <div class="dashboard-grid two-col">
+    <div class="widget-card orders-list-card">
+      <div class="widget-header">
+        <h3>Orders of the Day</h3>
+        <span class="badge">{{ todaysOrders.length }}</span>
+      </div>
+      <div class="orders-list">
+        @for (order of todaysOrders; track order.id) {
+          <div class="order-row">
+            <span class="order-id">#{{ order.id }}</span>
+            <span class="customer">{{ order.customerName }}</span>
+            <span class="amount">{{ formatCurrency(order.amount) }}</span>
+            <span
+              class="status"
+              [class.on_route]="order.status === 'ON_ROUTE'"
+              [class.delivered]="order.status === 'DELIVERED'">
+              {{ order.status === 'DELIVERED' ? 'Delivered' : 'On Route' }}
+            </span>
+          </div>
+        }
+        @empty {
+          <p class="empty-state">No orders today yet.</p>
+        }
+      </div>
+    </div>
+
+    <div class="widget-card top-orders-card">
+      <div class="widget-header">
+        <h3>Top Orders of the Day</h3>
+      </div>
+      <div class="top-orders-list">
+        @for (order of topOrders; track order.id; let i = $index) {
+          <div class="top-order-row">
+            <span class="rank">#{{ i + 1 }}</span>
+            <div class="order-info">
+              <span class="customer">{{ order.customerName }}</span>
+              <span class="amount">{{ formatCurrency(order.amount) }}</span>
+            </div>
+            <span
+              class="status"
+              [class.on_route]="order.status === 'ON_ROUTE'"
+              [class.delivered]="order.status === 'DELIVERED'">
+              {{ order.status === 'DELIVERED' ? 'Delivered' : 'On Route' }}
+            </span>
+          </div>
+        }
+        @empty {
+          <p class="empty-state">No orders today yet.</p>
+        }
+      </div>
+    </div>
+  </div>
+</div>

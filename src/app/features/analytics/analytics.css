@@ -1,0 +1,43 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
+.analytics {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  overflow-x: hidden;
+}
+
+.page-header {
+  background: #ffffff;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.page-header .subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.analytics-content {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
