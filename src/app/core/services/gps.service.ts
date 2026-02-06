@@ -3,10 +3,10 @@ import { interval, Subscription } from 'rxjs';
 import { OrdersService } from './orders.service';
 
 /**
- GpsService
-
-  Simulates live GPS movement of delivery agents.
-  Runs on a timer and updates order coordinates periodically.
+ * GpsService
+ * ----------
+ * Simulates live GPS movement of delivery agents.
+ * Runs on a timer and updates order coordinates periodically.
  */
 @Injectable({ providedIn: 'root' })
 export class GpsService {
@@ -14,8 +14,8 @@ export class GpsService {
   private sub?: Subscription;
 
   /**
-    Starts GPS simulation
-    Prevents multiple intervals from running
+   * Starts GPS simulation
+   * Prevents multiple intervals from running
    */
   start(): void {
     if (this.sub) return;
