@@ -170,4 +170,15 @@ export class OrdersService {
       .sort((a, b) => b.amount - a.amount)
       .slice(0, 5)
   );
+
+  /**
+ * Returns a human-friendly order reference for UI
+ * Example: ORD-6DE5
+ */
+getPrettyOrderId(id?: string): string {
+  if (!id) return 'ORD-0000';
+
+  return `ORD-${id.slice(-4).toUpperCase()}`;
+}
+
 }

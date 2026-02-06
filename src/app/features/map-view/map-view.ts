@@ -163,16 +163,17 @@ export class MapView implements AfterViewInit, OnDestroy {
   /**
    * Popup HTML for marker
    */
-  private getMarkerPopupHtml(order: Order): string {
-    if (!order.id) return '';
+ private getMarkerPopupHtml(order: Order): string {
+  return `
+    <div class="marker-popup">
+      <strong>${this.ordersService.getPrettyOrderId(order.id)}</strong>
+      — ${order.status.replace('_', ' ')}
+      <div>${order.customerName}</div>
+    </div>
+  `;
+}
 
-    return `
-      <div class="marker-popup">
-        <strong>#${order.id}</strong> — ${order.status.replace('_', ' ')}
-        <div>${order.customerName}</div>
-      </div>
-    `;
-  }
+
 
   /**
    * Cleanup on component destroy

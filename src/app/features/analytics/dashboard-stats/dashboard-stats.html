@@ -1,22 +1,35 @@
 <div class="dashboard-stats">
+
+  <!-- ===================== -->
+  <!-- TOP KPI CARDS -->
+  <!-- ===================== -->
   <div class="stats-row">
     <mat-card class="stat-card orders-card">
       <mat-card-header>
         <mat-card-title>Orders Today</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <span class="stat-value">{{ todaysOrdersCount() }}</span>
+        <span class="stat-value">
+          {{ todaysOrdersCount() }}
+        </span>
       </mat-card-content>
     </mat-card>
+
     <mat-card class="stat-card revenue-card">
       <mat-card-header>
         <mat-card-title>Revenue Today</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <span class="stat-value">{{ formatCurrency(todaysRevenue()) }}</span>
+        <span class="stat-value">
+          {{ formatCurrency(todaysRevenue()) }}
+        </span>
       </mat-card-content>
     </mat-card>
   </div>
+
+  <!-- ===================== -->
+  <!-- CHARTS -->
+  <!-- ===================== -->
   <div class="charts-row">
     <mat-card class="chart-card">
       <mat-card-header>
@@ -28,6 +41,7 @@
         </div>
       </mat-card-content>
     </mat-card>
+
     <mat-card class="chart-card">
       <mat-card-header>
         <mat-card-title>Top Orders of the Day</mat-card-title>
@@ -36,32 +50,64 @@
         <div class="chart-container">
           <canvas #topOrdersChart></canvas>
         </div>
+
         @if (topOrders().length === 0) {
-          <p class="no-data-overlay">No orders today yet.</p>
+          <p class="no-data-overlay">
+            No orders today yet.
+          </p>
         }
       </mat-card-content>
     </mat-card>
   </div>
+
+  <!-- ===================== -->
+  <!-- TOP 5 ORDERS LIST -->
+  <!-- ===================== -->
   <mat-card class="top-orders-list-card">
     <mat-card-header>
       <mat-card-title>Top 5 Orders</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
       <div class="orders-list">
+
         @for (order of topOrders(); track order.id) {
-          <div class="order-row">
-            <span class="rank">#{{ $index + 1 }}</span>
-            <span class="customer">{{ order.customerName }}</span>
-            <span class="amount">{{ formatCurrency(order.amount) }}</span>
-            <mat-chip [class]="order.status === 'DELIVERED' ? 'delivered' : 'on_route'" class="status-chip">
-              {{ order.status === 'DELIVERED' ? 'Delivered' : 'On Route' }}
-            </mat-chip>
-          </div>
-        }
-        @empty {
-          <p class="no-data">No orders today yet.</p>
-        }
+  <div class="order-row">
+
+    <!-- Rank + Pretty Order ID -->
+    <span class="rank">
+      #{{ $index + 1 }}
+      <span class="order-id">
+        {{ ordersService.getPrettyOrderId(order.id) }}
+      </span>
+    </span>
+
+    <span class="customer">
+      {{ order.customerName }}
+    </span>
+
+    <span class="amount">
+      {{ formatCurrency(order.amount) }}
+    </span>
+
+    <mat-chip
+      class="status-chip"
+      [class.delivered]="order.status === 'DELIVERED'"
+      [class.on_route]="order.status !== 'DELIVERED'">
+      {{ order.status === 'DELIVERED' ? 'Delivered' : 'On Route' }}
+    </mat-chip>
+
+  </div>
+}
+@empty {
+  <p class="no-data">
+    No orders today yet.
+  </p>
+}
+
+
       </div>
     </mat-card-content>
   </mat-card>
+
 </div>

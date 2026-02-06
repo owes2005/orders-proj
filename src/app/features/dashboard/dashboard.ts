@@ -33,11 +33,5 @@ export class Dashboard implements OnInit {
     return this.ordersService.todaysOrders();
   }
 
-  get todaysRevenue(): number {
-    return this.ordersService.todaysRevenue();
-  }
-
-  get topOrders(): Order[] {
-    return this.ordersService.topOrdersOfDay();
-  }
+  
 }

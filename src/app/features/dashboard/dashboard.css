@@ -1,6 +1,6 @@
 :host {
   flex: 1;
-  display: block;
+  display: flex;
   overflow: auto;
 }
 
@@ -8,6 +8,10 @@
   padding: 1.5rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
 }
 
 .page-header {
@@ -37,13 +41,26 @@
 }
 
 .dashboard-grid.two-col {
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 @media (max-width: 900px) {
   .dashboard-grid.two-col {
     grid-template-columns: 1fr;
   }
+}
+
+.orders-list-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.orders-list {
+  flex: 1;
+  overflow: auto;
 }
 
 .widget-card {
@@ -130,8 +147,7 @@
   gap: 0;
 }
 
-.order-row,
-.top-order-row {
+.order-row {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -180,27 +196,7 @@
   color: #047857;
 }
 
-.top-order-row {
-  padding: 0.625rem 0;
-}
 
-.top-order-row .order-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.top-order-row .order-info .customer {
-  font-weight: 500;
-  color: #374151;
-}
-
-.top-order-row .rank {
-  font-weight: 700;
-  color: #1d4ed8;
-  min-width: 1.5rem;
-}
 
 .empty-state {
   padding: 2rem;

@@ -5,10 +5,12 @@ import {
   ElementRef,
   input,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { Order } from '../../../core/models/order.model';
+import { OrdersService } from '../../../core';
 import { MATERIAL_MODULES } from '../../../shared/material';
 
 Chart.register(...registerables);
@@ -23,6 +25,9 @@ Chart.register(...registerables);
 export class DashboardStats implements AfterViewInit {
   @ViewChild('revenueChart') revenueChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('topOrdersChart') topOrdersChartRef!: ElementRef<HTMLCanvasElement>;
+  ordersService = inject(OrdersService);
+
+  
 
   todaysOrdersCount = input.required<number>();
   todaysRevenue = input.required<number>();
