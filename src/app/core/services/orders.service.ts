@@ -23,7 +23,6 @@ export class OrdersService {
   private _selectedOrder = signal<Order | null>(null);
   private readonly DAILY_ORDER_KEY = 'daily_orders_generated';
 
-
   /** Read-only signals exposed to components */
   orders = this._orders.asReadonly();
   selectedOrder = this._selectedOrder.asReadonly();
@@ -129,7 +128,7 @@ export class OrdersService {
         customerName: customers[Math.floor(Math.random() * customers.length)],
         status: 'ON_ROUTE',
         latitude: 8 + Math.random() * 29,
-        longitude: 68 + Math.random() * 29, 
+        longitude: 68 + Math.random() * 29,
         amount: Math.floor(500 + Math.random() * 2500),
       };
 
@@ -137,8 +136,45 @@ export class OrdersService {
     }
   }
 
-  
+  /**
+   * Generates 5–10 demo orders once per day
+   */
+  generateDailyOrders(): void {
+    const today = new Date().toISOString().split('T')[0];
+    const lastGenerated = localStorage.getItem(this.DAILY_ORDER_KEY);
 
+    if (lastGenerated === today) return;
+
+    const count = Math.floor(5 + Math.random() * 6); // 5–10
+    this.generateDemoOrders(count);
+
+    localStorage.setItem(this.DAILY_ORDER_KEY, today);
+  }
+
+  /**
+   * Automatically moves ON_ROUTE orders to DELIVERED over time
+   */
+  startAutoDeliverySimulation(): void {
+    setInterval(
+      () => {
+        const onRouteOrders = this._orders().filter((o: Order) => o.status === 'ON_ROUTE');
+
+        if (onRouteOrders.length === 0) return;
+
+        const deliverCount = Math.min(Math.ceil(Math.random() * 2), onRouteOrders.length);
+
+        const shuffled = [...onRouteOrders].sort(() => Math.random() - 0.5);
+        const toDeliver = shuffled.slice(0, deliverCount);
+
+        toDeliver.forEach((order: Order) => {
+          if (order.id) {
+            this.markDelivered(order.id);
+          }
+        });
+      },
+      2 * 60 * 1000,
+    ); // every 2 minutes
+  }
 
   // =========================
   // ANALYTICS (Computed Signals)
@@ -177,51 +213,4 @@ export class OrdersService {
 
     return `ORD-${id.slice(-4).toUpperCase()}`;
   }
-
-
-
-  /**
-   * Generates 5–10 demo orders once per day
-   */
-  generateDailyOrders(): void {
-    const today = new Date().toISOString().split('T')[0];
-    const lastGenerated = localStorage.getItem(this.DAILY_ORDER_KEY);
-
-    if (lastGenerated === today) return;
-
-    const count = Math.floor(5 + Math.random() * 6); // 5–10
-    this.generateDemoOrders(count);
-
-    localStorage.setItem(this.DAILY_ORDER_KEY, today);
-  }
-
-  /**
-   * Automatically moves ON_ROUTE orders to DELIVERED over time
-   */
-  startAutoDeliverySimulation(): void {
-    setInterval(() => {
-      const onRouteOrders = this._orders().filter(
-        (o: Order) => o.status === 'ON_ROUTE'
-      );
-
-      if (onRouteOrders.length === 0) return;
-
-      const deliverCount = Math.min(
-        Math.ceil(Math.random() * 2),
-        onRouteOrders.length
-      );
-
-      const shuffled = [...onRouteOrders].sort(() => Math.random() - 0.5);
-      const toDeliver = shuffled.slice(0, deliverCount);
-
-      toDeliver.forEach((order: Order) => {
-        if (order.id) {
-          this.markDelivered(order.id);
-        }
-      });
-    }, 2 * 60 * 1000); // every 2 minutes
-  }
-
-
 }
-

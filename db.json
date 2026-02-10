@@ -3,7 +3,7 @@
     {
       "id": "1",
       "customerName": "Rahul Sharma",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 13.148202765068955,
       "longitude": 77.32797069685785,
       "createdAt": "2026-02-04T09:15:00",
@@ -12,7 +12,7 @@
     {
       "id": "2",
       "customerName": "Ayesha Khan",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 13.074705345963654,
       "longitude": 80.35391516979108,
       "createdAt": "2026-02-04T10:40:00",
@@ -30,7 +30,7 @@
     {
       "id": "4",
       "customerName": "Sneha Iyer",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 9.999687169968716,
       "longitude": 76.2651103575364,
       "createdAt": "2026-02-04T11:05:00",
@@ -39,7 +39,7 @@
     {
       "id": "5",
       "customerName": "Vikram Rao",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 13.039061862338938,
       "longitude": 77.44558383840078,
       "createdAt": "2026-02-04T12:10:00",
@@ -102,7 +102,7 @@
     {
       "id": "57dc",
       "customerName": "Arjun Verma",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 15.891125041666488,
       "longitude": 72.23410815055935,
       "amount": 1333,
@@ -111,7 +111,7 @@
     {
       "id": "aa14",
       "customerName": "Neha Patel",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 15.936932172350396,
       "longitude": 73.2734084325209,
       "amount": 2743,
@@ -129,7 +129,7 @@
     {
       "id": "f20c",
       "customerName": "Mohammed Ali",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 15.031591968455546,
       "longitude": 80.19479684930157,
       "amount": 2955,
@@ -138,7 +138,7 @@
     {
       "id": "ed6a",
       "customerName": "Ayesha Khan",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 18.060727803030737,
       "longitude": 74.23059159428139,
       "amount": 2821,
@@ -147,7 +147,7 @@
     {
       "id": "297a",
       "customerName": "Neha Patel",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 23.68943601328973,
       "longitude": 75.76332224335665,
       "amount": 1261,
@@ -165,7 +165,7 @@
     {
       "id": "834d",
       "customerName": "Vikram Rao",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 13.070789572494292,
       "longitude": 78.38551651135857,
       "amount": 1317,
@@ -192,7 +192,7 @@
     {
       "id": "97ff",
       "customerName": "Ayesha Khan",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 19.078553322114708,
       "longitude": 81.92003442376681,
       "amount": 2776,
@@ -228,7 +228,7 @@
     {
       "id": "e748",
       "customerName": "Neha Patel",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 25.747262436781938,
       "longitude": 81.21484559331367,
       "amount": 2236,
@@ -255,7 +255,7 @@
     {
       "id": "d11d",
       "customerName": "Mohammed Ali",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 33.11895130404629,
       "longitude": 90.6980424903112,
       "amount": 2389,
@@ -273,7 +273,7 @@
     {
       "id": "c2bc",
       "customerName": "Mohammed Ali",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 36.26214385114222,
       "longitude": 76.5409103162389,
       "amount": 1720,
@@ -291,7 +291,7 @@
     {
       "id": "0a00",
       "customerName": "Ayesha Khan",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 12.039340078066047,
       "longitude": 79.61420550315621,
       "amount": 1864,
@@ -300,7 +300,7 @@
     {
       "id": "f7c0",
       "customerName": "Mohammed Ali",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 28.30853352542074,
       "longitude": 88.78902967922605,
       "amount": 2315,
@@ -309,7 +309,7 @@
     {
       "id": "7374",
       "customerName": "Sneha Iyer",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 24.078583669382393,
       "longitude": 96.9217783286651,
       "amount": 2243,
@@ -318,7 +318,7 @@
     {
       "id": "8c50",
       "customerName": "Rahul Sharma",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 15.00744601931256,
       "longitude": 79.01227198498766,
       "amount": 1355,
@@ -327,7 +327,7 @@
     {
       "id": "a27a",
       "customerName": "Vikram Rao",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 18.547564586152323,
       "longitude": 80.15753716328729,
       "amount": 1041,
@@ -354,7 +354,7 @@
     {
       "id": "6313",
       "customerName": "Arjun Verma",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 35.22787885313221,
       "longitude": 73.24399841286066,
       "amount": 1618,
@@ -363,7 +363,7 @@
     {
       "id": "9801",
       "customerName": "Ayesha Khan",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 20.364636600095782,
       "longitude": 72.4002465106217,
       "amount": 1628,
@@ -372,7 +372,7 @@
     {
       "id": "7897",
       "customerName": "Pooja Singh",
-      "status": "ON_ROUTE",
+      "status": "DELIVERED",
       "latitude": 32.04793816479797,
       "longitude": 85.84138205522547,
       "amount": 1590,
