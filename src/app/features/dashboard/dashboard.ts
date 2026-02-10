@@ -16,14 +16,15 @@ export class Dashboard implements OnInit {
   ordersService = inject(OrdersService);
 
   ngOnInit(): void {
+    // 1️⃣ Load existing orders
     this.ordersService.loadOrders();
-     setTimeout(() => {
-    if (!this.ordersService.hasOrdersForToday()) {
-      this.ordersService.generateDemoOrders(6);
-    }
-  }, 300);
-}
-  
+
+    // 2️⃣ Daily generation + lifecycle simulation
+    setTimeout(() => {
+      this.ordersService.generateDailyOrders();
+      this.ordersService.startAutoDeliverySimulation();
+    }, 300);
+  }
 
   formatCurrency(amount: number): string {
     return `₹${amount.toLocaleString('en-IN')}`;
@@ -32,6 +33,4 @@ export class Dashboard implements OnInit {
   get todaysOrders(): Order[] {
     return this.ordersService.todaysOrders();
   }
-
-  
 }

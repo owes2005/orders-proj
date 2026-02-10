@@ -1,0 +1,113 @@
+<div class="custom-analytics">
+  <section class="config-section" [formGroup]="configForm">
+    <h2 class="section-title">Custom Analytics</h2>
+
+    <div class="config-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Chart Type</mat-label>
+        <mat-select formControlName="chartType">
+          <mat-option *ngFor="let type of chartTypes" [value]="type.value">
+            {{ type.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>X Axis (Dimension)</mat-label>
+        <mat-select formControlName="xAxis">
+          <mat-option *ngFor="let axis of xAxes" [value]="axis.value">
+            {{ axis.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Y Axis (Metric)</mat-label>
+        <mat-select formControlName="yAxis">
+          <mat-option *ngFor="let metric of yAxes" [value]="metric.value">
+            {{ metric.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Order Status (optional)</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="null">All statuses</mat-option>
+          <mat-option value="ON_ROUTE">On route</mat-option>
+          <mat-option value="DELIVERED">Delivered</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="date-range-field">
+        <mat-label>Date range</mat-label>
+        <mat-date-range-input
+          [rangePicker]="picker"
+        >
+          <input matStartDate formControlName="fromDate" placeholder="From date" />
+          <input matEndDate formControlName="toDate" placeholder="To date" />
+        </mat-date-range-input>
+        <mat-hint>Filters by order created date</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <div class="actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addChart()"
+        [disabled]="configForm.invalid || isBuildingChart"
+      >
+        Add Chart
+      </button>
+    </div>
+  </section>
+
+  <section class="charts-section">
+    <ng-container *ngIf="charts.length; else emptyState">
+      <div class="charts-grid">
+        <mat-card
+          class="chart-card"
+          *ngFor="let chart of charts; trackBy: trackByChartId"
+        >
+          <mat-card-header>
+            <div class="chart-header">
+              <div class="chart-title">
+                {{ chart.title }}
+              </div>
+              <button
+                mat-icon-button
+                color="warn"
+                type="button"
+                (click)="removeChart(chart.id)"
+                aria-label="Remove chart"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="chart-container">
+              <canvas #chartCanvas></canvas>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <h3>No charts yet</h3>
+        <p>
+          Use the configuration above to add your first custom chart. You can
+          combine dimensions, metrics, and filters to explore your orders data.
+        </p>
+      </div>
+    </ng-template>
+  </section>
+</div>
+

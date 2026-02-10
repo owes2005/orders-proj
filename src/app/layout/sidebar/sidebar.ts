@@ -24,6 +24,7 @@ export class Sidebar {
     { label: 'Orders', path: '/orders', icon: 'list_alt' },
     { label: 'Map', path: '/map', icon: 'map' },
     { label: 'Analytics', path: '/analytics', icon: 'analytics' },
+    { label: 'Custom Analytics', path: '/custom-analytics', icon: 'auto_graph' },
   ];
 
   toggleCollapse(): void {

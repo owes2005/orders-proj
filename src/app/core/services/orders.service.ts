@@ -21,6 +21,8 @@ export class OrdersService {
   /** Internal writable signals */
   private _orders = signal<Order[]>([]);
   private _selectedOrder = signal<Order | null>(null);
+  private readonly DAILY_ORDER_KEY = 'daily_orders_generated';
+
 
   /** Read-only signals exposed to components */
   orders = this._orders.asReadonly();
@@ -65,16 +67,16 @@ export class OrdersService {
   updateOrderLocation(id: String, lat: number, lng: number): void {
     // Update local signal state
     this._orders.update((orders) =>
-      orders.map((o) =>
-        o.id === id ? { ...o, latitude: lat, longitude: lng } : o
-      )
+      orders.map((o) => (o.id === id ? { ...o, latitude: lat, longitude: lng } : o)),
     );
 
     // Persist change to backend
-    this.http.patch(`${this.API_URL}/${id}`, {
-      latitude: lat,
-      longitude: lng,
-    }).subscribe();
+    this.http
+      .patch(`${this.API_URL}/${id}`, {
+        latitude: lat,
+        longitude: lng,
+      })
+      .subscribe();
   }
 
   /**
@@ -82,14 +84,14 @@ export class OrdersService {
    */
   markDelivered(id: String): void {
     this._orders.update((orders) =>
-      orders.map((o) =>
-        o.id === id ? { ...o, status: 'DELIVERED' } : o
-      )
+      orders.map((o) => (o.id === id ? { ...o, status: 'DELIVERED' } : o)),
     );
 
-    this.http.patch(`${this.API_URL}/${id}`, {
-      status: 'DELIVERED',
-    }).subscribe();
+    this.http
+      .patch(`${this.API_URL}/${id}`, {
+        status: 'DELIVERED',
+      })
+      .subscribe();
   }
 
   // =========================
@@ -103,13 +105,11 @@ export class OrdersService {
   hasOrdersForToday(): boolean {
     const today = new Date().toISOString().split('T')[0];
 
-    return this._orders().some(
-      (o) => o.createdAt && o.createdAt.startsWith(today)
-    );
+    return this._orders().some((o) => o.createdAt && o.createdAt.startsWith(today));
   }
 
   /**
-   * Generates fake orders for demo / portfolio mode
+   * Generates fake orders for demo purposes
    * Runs once per day
    */
   generateDemoOrders(count = 5): void {
@@ -126,17 +126,19 @@ export class OrdersService {
 
     for (let i = 0; i < count; i++) {
       const order: Order = {
-        customerName:
-          customers[Math.floor(Math.random() * customers.length)],
+        customerName: customers[Math.floor(Math.random() * customers.length)],
         status: 'ON_ROUTE',
-        latitude: 12 + Math.random() * 15,
-        longitude: 72 + Math.random() * 15,
+        latitude: 8 + Math.random() * 29,
+        longitude: 68 + Math.random() * 29, 
         amount: Math.floor(500 + Math.random() * 2500),
       };
 
       this.addOrder(order).subscribe(() => this.loadOrders());
     }
   }
+
+  
+
 
   // =========================
   // ANALYTICS (Computed Signals)
@@ -150,35 +152,76 @@ export class OrdersService {
     const today = new Date().toISOString().split('T')[0];
 
     return this._orders().filter(
-      (o): o is Order & { createdAt: string } =>
-        !!o.createdAt && o.createdAt.startsWith(today)
+      (o): o is Order & { createdAt: string } => !!o.createdAt && o.createdAt.startsWith(today),
     );
   });
 
   /**
    * Total revenue from today’s orders
    */
-  todaysRevenue = computed(() =>
-    this.todaysOrders().reduce((sum, o) => sum + o.amount, 0)
-  );
+  todaysRevenue = computed(() => this.todaysOrders().reduce((sum, o) => sum + o.amount, 0));
 
   /**
    * Top 5 highest-value orders of today
    */
   topOrdersOfDay = computed(() =>
-    [...this.todaysOrders()]
-      .sort((a, b) => b.amount - a.amount)
-      .slice(0, 5)
+    [...this.todaysOrders()].sort((a, b) => b.amount - a.amount).slice(0, 5),
   );
 
   /**
- * Returns a human-friendly order reference for UI
- * Example: ORD-6DE5
- */
-getPrettyOrderId(id?: string): string {
-  if (!id) return 'ORD-0000';
+   * Returns a order reference for UI
+   * Example: ORD-6DE5
+   */
+  getPrettyOrderId(id?: string): string {
+    if (!id) return 'ORD-0000';
 
-  return `ORD-${id.slice(-4).toUpperCase()}`;
+    return `ORD-${id.slice(-4).toUpperCase()}`;
+  }
+
+
+
+  /**
+   * Generates 5–10 demo orders once per day
+   */
+  generateDailyOrders(): void {
+    const today = new Date().toISOString().split('T')[0];
+    const lastGenerated = localStorage.getItem(this.DAILY_ORDER_KEY);
+
+    if (lastGenerated === today) return;
+
+    const count = Math.floor(5 + Math.random() * 6); // 5–10
+    this.generateDemoOrders(count);
+
+    localStorage.setItem(this.DAILY_ORDER_KEY, today);
+  }
+
+  /**
+   * Automatically moves ON_ROUTE orders to DELIVERED over time
+   */
+  startAutoDeliverySimulation(): void {
+    setInterval(() => {
+      const onRouteOrders = this._orders().filter(
+        (o: Order) => o.status === 'ON_ROUTE'
+      );
+
+      if (onRouteOrders.length === 0) return;
+
+      const deliverCount = Math.min(
+        Math.ceil(Math.random() * 2),
+        onRouteOrders.length
+      );
+
+      const shuffled = [...onRouteOrders].sort(() => Math.random() - 0.5);
+      const toDeliver = shuffled.slice(0, deliverCount);
+
+      toDeliver.forEach((order: Order) => {
+        if (order.id) {
+          this.markDelivered(order.id);
+        }
+      });
+    }, 2 * 60 * 1000); // every 2 minutes
+  }
+
+
 }
 
-}
