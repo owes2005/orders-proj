@@ -1,12 +1,13 @@
 <div class="orders-panel-header">
   <h2>Orders Panel</h2>
-  <span class="orders-count">{{ orders().length }} orders</span>
+  <span class="orders-count">
+    {{ todaysOrders().length }} orders
+  </span>
 </div>
 
 <div class="orders-panel">
-  <!-- Orders list -->
   <mat-card
-    *ngFor="let o of orders()"
+    *ngFor="let o of todaysOrders()"
     class="order-card"
     [class.active]="selectedOrder()?.id === o.id"
     (click)="select(o)"

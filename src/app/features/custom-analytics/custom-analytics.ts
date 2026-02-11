@@ -1,6 +1,21 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  inject,
+  Injectable,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MATERIAL_MODULES } from '../../shared/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -10,20 +25,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OrdersService } from '../../core/services/orders.service';
 import { Order } from '../../core/models/order.model';
 import { Chart } from 'chart.js/auto';
-import { Injectable } from '@angular/core';
+import {
+  AnalyticsStateService,
+  StoredChartConfig,
+  ChartType,
+} from '../../core/services/analytics-state.service';
 
-type ChartType = 'bar' | 'line' | 'pie' | 'doughnut' ;
 type ChartDimension = 'date' | 'hour' | 'status' | 'customer';
 type ChartMetric = 'orderCount' | 'totalRevenue' | 'avgOrderValue';
-
-interface CustomChartConfig {
-  id: number;
-  chartType: ChartType;
-  labels: string[];
-  data: number[];
-  title: string;
-  chartInstance?: Chart;
-}
 
 interface ChartFilters {
   status?: Order['status'] | null;
@@ -31,14 +40,12 @@ interface ChartFilters {
   toDate?: Date | null;
 }
 
+/* ----------------------------- Analytics Service ----------------------------- */
+
 @Injectable({
   providedIn: 'root',
 })
 export class AnalyticsService {
-  /**
-   * Builds chart labels and data based on the selected
-   * dimension, metric and optional filters.
-   */
   buildChartData(
     orders: Order[],
     options: {
@@ -46,30 +53,27 @@ export class AnalyticsService {
       xAxis: ChartDimension;
       yAxis: ChartMetric;
       filters: ChartFilters;
-    },
+    }
   ): { labels: string[]; data: number[] } {
-    const { xAxis, yAxis, filters } = options;
 
+    const { xAxis, yAxis, filters } = options;
     let filtered = [...orders];
 
-    // Apply status filter
     if (filters.status) {
       filtered = filtered.filter((o) => o.status === filters.status);
     }
 
-    // Apply date range filter (uses createdAt when available)
     if (filters.fromDate || filters.toDate) {
       filtered = filtered.filter((o) => {
         if (!o.createdAt) return false;
+
         const created = new Date(o.createdAt);
 
-        if (filters.fromDate && created < this.startOfDay(filters.fromDate)) {
+        if (filters.fromDate && created < this.startOfDay(filters.fromDate))
           return false;
-        }
 
-        if (filters.toDate && created > this.endOfDay(filters.toDate)) {
+        if (filters.toDate && created > this.endOfDay(filters.toDate))
           return false;
-        }
 
         return true;
       });
@@ -88,6 +92,7 @@ export class AnalyticsService {
     }
 
     const sortedKeys = this.sortKeys([...buckets.keys()], xAxis);
+
     const labels: string[] = [];
     const data: number[] = [];
 
@@ -113,49 +118,55 @@ export class AnalyticsService {
 
   private getBucketKey(order: Order, xAxis: ChartDimension): string | null {
     switch (xAxis) {
-      case 'date': {
-        if (!order.createdAt) return null;
-        return order.createdAt.split('T')[0]; // YYYY-MM-DD
-      }
-      case 'hour': {
+      case 'date':
+        return order.createdAt?.split('T')[0] ?? null;
+
+      case 'hour':
         if (!order.createdAt) return null;
         const d = new Date(order.createdAt);
-        const hour = d.getHours().toString().padStart(2, '0');
-        return `${hour}:00`;
-      }
+        return `${d.getHours().toString().padStart(2, '0')}:00`;
+
       case 'status':
         return order.status;
+
       case 'customer':
         return order.customerName;
+
       default:
         return null;
     }
   }
 
   private sortKeys(keys: string[], xAxis: ChartDimension): string[] {
-    if (xAxis === 'date') {
+    if (xAxis === 'date')
       return keys.sort((a, b) => a.localeCompare(b));
-    }
 
-    if (xAxis === 'hour') {
-      return keys.sort((a, b) => {
-        const aNum = parseInt(a.split(':')[0], 10);
-        const bNum = parseInt(b.split(':')[0], 10);
-        return aNum - bNum;
-      });
-    }
+    if (xAxis === 'hour')
+      return keys.sort(
+        (a, b) => parseInt(a.split(':')[0]) - parseInt(b.split(':')[0])
+      );
 
     return keys.sort((a, b) => a.localeCompare(b));
   }
 
-  private startOfDay(date: Date): Date {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+  private startOfDay(date: Date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0);
   }
 
-  private endOfDay(date: Date): Date {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+  private endOfDay(date: Date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
   }
 }
+
+/* ---------------------------- Custom Analytics ---------------------------- */
 
 @Component({
   selector: 'app-custom-analytics',
@@ -173,96 +184,101 @@ export class AnalyticsService {
   templateUrl: './custom-analytics.html',
   styleUrls: ['./custom-analytics.css'],
 })
-export class CustomAnalytics implements AfterViewInit, OnDestroy {
+export class CustomAnalytics implements OnInit, AfterViewInit, OnDestroy {
+
   private fb = inject(FormBuilder);
   private ordersService = inject(OrdersService);
   private analyticsService = inject(AnalyticsService);
+  private analyticsState = inject(AnalyticsStateService);
 
-  @ViewChildren('chartCanvas') chartCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
+  @ViewChildren('chartCanvas')
+  chartCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
 
-  configForm: FormGroup = this.fb.group({
-    chartType: ['bar' as ChartType, Validators.required],
-    xAxis: ['date' as ChartDimension, Validators.required],
-    yAxis: ['orderCount' as ChartMetric, Validators.required],
-    status: [null as Order['status'] | null],
-    fromDate: [null as Date | null],
-    toDate: [null as Date | null],
-  });
-
-  charts: CustomChartConfig[] = [];
+  private chartInstances = new Map<number, Chart>();
   private chartIdCounter = 1;
 
-  chartTypes: { value: ChartType; label: string }[] = [
+  // Color palette
+  private chartColors = [
+    { bg: 'rgba(63,81,181,0.6)', border: 'rgba(63,81,181,1)' },
+    { bg: 'rgba(244,67,54,0.6)', border: 'rgba(244,67,54,1)' },
+    { bg: 'rgba(76,175,80,0.6)', border: 'rgba(76,175,80,1)' },
+    { bg: 'rgba(255,152,0,0.6)', border: 'rgba(255,152,0,1)' },
+    { bg: 'rgba(156,39,176,0.6)', border: 'rgba(156,39,176,1)' },
+    { bg: 'rgba(0,188,212,0.6)', border: 'rgba(0,188,212,1)' },
+  ];
+
+  get charts(): StoredChartConfig[] {
+    return this.analyticsState.charts;
+  }
+
+  configForm: FormGroup = this.fb.group({
+    chartType: ['bar', Validators.required],
+    xAxis: ['date', Validators.required],
+    yAxis: ['orderCount', Validators.required],
+    status: [null],
+    fromDate: [null],
+    toDate: [null],
+  });
+
+  chartTypes = [
     { value: 'bar', label: 'Bar' },
     { value: 'line', label: 'Line' },
     { value: 'pie', label: 'Pie' },
     { value: 'doughnut', label: 'Doughnut' },
-    
   ];
 
-  xAxes: { value: ChartDimension; label: string }[] = [
+  xAxes = [
     { value: 'date', label: 'Date' },
     { value: 'hour', label: 'Hour of Day' },
     { value: 'status', label: 'Status' },
     { value: 'customer', label: 'Customer' },
   ];
 
-  yAxes: { value: ChartMetric; label: string }[] = [
+  yAxes = [
     { value: 'orderCount', label: 'Order Count' },
     { value: 'totalRevenue', label: 'Total Revenue' },
     { value: 'avgOrderValue', label: 'Average Order Value' },
   ];
 
-  isBuildingChart = false;
-
   ngOnInit(): void {
-    // Ensure orders are loaded when the page is opened directly
     if (this.ordersService.orders().length === 0) {
       this.ordersService.loadOrders();
     }
   }
 
   ngAfterViewInit(): void {
-    // Render charts whenever canvas list changes
     this.chartCanvases.changes.subscribe(() => this.renderCharts());
+    setTimeout(() => this.renderCharts());
   }
 
   ngOnDestroy(): void {
-    this.charts.forEach((c) => c.chartInstance?.destroy());
+    this.chartInstances.forEach((chart) => chart.destroy());
+    this.chartInstances.clear();
   }
 
   addChart(): void {
-    if (this.configForm.invalid) {
-      this.configForm.markAllAsTouched();
-      return;
-    }
+    if (this.configForm.invalid) return;
+
+    const chartType = this.configForm.value.chartType;
+    const xAxis = this.configForm.value.xAxis;
+    const yAxis = this.configForm.value.yAxis;
 
     const orders = this.ordersService.orders();
-    this.isBuildingChart = true;
-
-    const chartType = this.configForm.value.chartType as ChartType;
-    const xAxis = this.configForm.value.xAxis as ChartDimension;
-    const yAxis = this.configForm.value.yAxis as ChartMetric;
-    const status = this.configForm.value.status as Order['status'] | null;
-    const fromDate = this.configForm.value.fromDate as Date | null;
-    const toDate = this.configForm.value.toDate as Date | null;
 
     const { labels, data } = this.analyticsService.buildChartData(orders, {
       chartType,
       xAxis,
       yAxis,
       filters: {
-        status,
-        fromDate,
-        toDate,
+        status: this.configForm.value.status,
+        fromDate: this.configForm.value.fromDate,
+        toDate: this.configForm.value.toDate,
       },
     });
 
-    const title = `${this.getChartTypeLabel(chartType)} - ${this.getAxisLabel(
-      xAxis,
-    )} vs ${this.getMetricLabel(yAxis)}`;
+    const title = `${this.getChartTypeLabel(chartType)} - ${this.getAxisLabel(xAxis)} vs ${this.getMetricLabel(yAxis)}`;
 
-    const newChart: CustomChartConfig = {
+    const newChart: StoredChartConfig = {
       id: this.chartIdCounter++,
       chartType,
       labels,
@@ -270,17 +286,19 @@ export class CustomAnalytics implements AfterViewInit, OnDestroy {
       title,
     };
 
-    this.charts = [...this.charts, newChart];
-    this.isBuildingChart = false;
+    this.analyticsState.charts = [...this.analyticsState.charts, newChart];
   }
 
   removeChart(id: number): void {
-    const chart = this.charts.find((c) => c.id === id);
-    chart?.chartInstance?.destroy();
-    this.charts = this.charts.filter((c) => c.id !== id);
+    const instance = this.chartInstances.get(id);
+    instance?.destroy();
+    this.chartInstances.delete(id);
+
+    this.analyticsState.charts =
+      this.analyticsState.charts.filter((c) => c.id !== id);
   }
 
-  trackByChartId(_index: number, chart: CustomChartConfig): number {
+  trackByChartId(_: number, chart: StoredChartConfig) {
     return chart.id;
   }
 
@@ -288,21 +306,30 @@ export class CustomAnalytics implements AfterViewInit, OnDestroy {
     const canvasArray = this.chartCanvases.toArray();
 
     this.charts.forEach((chartConfig, index) => {
-      if (chartConfig.chartInstance) {
-        return;
-      }
+      if (this.chartInstances.has(chartConfig.id)) return;
 
       const canvasRef = canvasArray[index];
-      if (!canvasRef) {
-        return;
-      }
+      if (!canvasRef) return;
 
       const ctx = canvasRef.nativeElement.getContext('2d');
-      if (!ctx) {
-        return;
+      if (!ctx) return;
+
+      const baseColor = this.chartColors[index % this.chartColors.length];
+
+      let backgroundColor: any = baseColor.bg;
+      let borderColor: any = baseColor.border;
+
+      if (chartConfig.chartType === 'pie' || chartConfig.chartType === 'doughnut') {
+        backgroundColor = chartConfig.labels.map((_, i) =>
+          this.chartColors[i % this.chartColors.length].bg
+        );
+
+        borderColor = chartConfig.labels.map((_, i) =>
+          this.chartColors[i % this.chartColors.length].border
+        );
       }
 
-      chartConfig.chartInstance = new Chart(ctx, {
+      const chart = new Chart(ctx, {
         type: chartConfig.chartType,
         data: {
           labels: chartConfig.labels,
@@ -310,10 +337,9 @@ export class CustomAnalytics implements AfterViewInit, OnDestroy {
             {
               label: chartConfig.title,
               data: chartConfig.data,
-              backgroundColor: 'rgba(63, 81, 181, 0.4)',
-              borderColor: 'rgba(63, 81, 181, 1)',
+              backgroundColor,
+              borderColor,
               borderWidth: 1,
-              
             },
           ],
         },
@@ -322,6 +348,8 @@ export class CustomAnalytics implements AfterViewInit, OnDestroy {
           maintainAspectRatio: false,
         },
       });
+
+      this.chartInstances.set(chartConfig.id, chart);
     });
   }
 
@@ -337,4 +365,3 @@ export class CustomAnalytics implements AfterViewInit, OnDestroy {
     return this.yAxes.find((y) => y.value === metric)?.label ?? metric;
   }
 }
-
