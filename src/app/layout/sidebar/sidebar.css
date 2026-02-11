@@ -134,3 +134,44 @@
   color: #9ca3af;
   font-weight: 500;
 }
+
+@media (max-width: 900px) {
+  .sidebar,
+  .sidebar.collapsed {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .sidebar-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .collapse-btn {
+    display: none;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    gap: 0.375rem;
+    padding: 0.625rem 0.625rem 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+
+  .nav-item,
+  .sidebar.collapsed .nav-item {
+    margin-bottom: 0;
+    padding: 0.625rem 0.75rem;
+    justify-content: flex-start;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+}

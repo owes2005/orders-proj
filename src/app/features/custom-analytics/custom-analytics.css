@@ -60,7 +60,7 @@
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
 }
 
@@ -104,3 +104,37 @@
   margin-inline: auto;
 }
 
+@media (max-width: 768px) {
+  .custom-analytics {
+    gap: 16px;
+    padding: 12px;
+    overflow-y: auto;
+    max-height: 82vh;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .config-section {
+    padding: 12px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    height: 220px;
+  }
+}

@@ -41,3 +41,20 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+@media (max-width: 900px) {
+  .page-header {
+    padding: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.125rem;
+  }
+
+  .analytics-content {
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 78vh;
+    -webkit-overflow-scrolling: touch;
+  }
+}

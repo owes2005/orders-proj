@@ -47,8 +47,92 @@
 }
 
 @media (max-width: 900px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .page-header {
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .dashboard-grid {
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
   .dashboard-grid.two-col {
     grid-template-columns: 1fr;
+  }
+
+  .widget-card {
+    padding: 1rem;
+  }
+
+  .order-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "id status"
+      "customer customer"
+      "amount amount";
+    align-items: center;
+    column-gap: 0.5rem;
+    row-gap: 0.35rem;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #ffffff;
+    margin-bottom: 0.625rem;
+  }
+
+  .order-id {
+    min-width: auto;
+    grid-area: id;
+  }
+
+  .amount {
+    grid-area: amount;
+  }
+
+  .status {
+    grid-area: status;
+    justify-self: end;
+  }
+
+  .orders-list-card .orders-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 40vh;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .orders-list-card {
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .order-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .customer {
+    grid-area: customer;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .widget-value {
+    font-size: 1.5rem;
+  }
+
+  .status {
+    font-size: 0.625rem;
   }
 }
 

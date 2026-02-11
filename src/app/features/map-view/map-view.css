@@ -152,3 +152,25 @@ app-map-view,
 .dashboard {
   overflow: hidden;
 }
+
+@media (max-width: 900px) {
+  .map-controls {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .order-details {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: auto;
+    min-width: 0;
+    max-width: none;
+    z-index: 1200;
+    max-height: calc(100% - 24px);
+    overflow-y: auto;
+  }
+}

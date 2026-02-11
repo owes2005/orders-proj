@@ -38,5 +38,14 @@ export class OrdersPanel {
 
   select(order: Order): void {
     this.ordersService.selectOrder(order);
+
+    if (typeof window !== 'undefined' && window.innerWidth <= 900) {
+      setTimeout(() => {
+        document.querySelector('app-map-view')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 50);
+    }
   }
 }

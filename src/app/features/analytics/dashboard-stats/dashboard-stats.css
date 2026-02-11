@@ -136,3 +136,35 @@
   background: #dbeafe !important;
   color: #1d4ed8 !important;
 }
+
+@media (max-width: 900px) {
+  .dashboard-stats {
+    padding: 0;
+    gap: 0.75rem;
+  }
+
+  .stats-row,
+  .charts-row {
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    flex: 1 1 100%;
+  }
+
+  .chart-card {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .order-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.375rem 0.75rem;
+  }
+
+  .order-row .customer {
+    flex-basis: 100%;
+    order: 3;
+  }
+}
