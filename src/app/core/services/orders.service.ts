@@ -1,6 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order.model';
+import { environment } from '../../../environments/environment';
 
 /**
  * OrdersService
@@ -16,7 +17,8 @@ import { Order } from '../models/order.model';
   providedIn: 'root',
 })
 export class OrdersService {
-  private readonly API_URL = 'http://127.0.0.1:3000/orders';
+  private readonly API_URL = `${environment.apiBaseUrl}/orders`;
+
 
   /** Internal writable signals */
   private _orders = signal<Order[]>([]);
