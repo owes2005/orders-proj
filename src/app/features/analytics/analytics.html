@@ -9,5 +9,21 @@
       [todaysRevenue]="ordersService.todaysRevenue()"
       [topOrders]="ordersService.topOrdersOfDay()"
     />
+        <!-- DYNAMIC ORDERS TABLE -->
+        <mat-card class="section-card">
+  <mat-card-header>
+    <mat-card-title class="section-title">
+      Today's Orders
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <app-orders-table
+      [orders]="ordersService.todaysOrders()">
+    </app-orders-table>
+  </mat-card-content>
+
+</mat-card>
+
   </main>
 </div>

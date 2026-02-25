@@ -1,0 +1,124 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Wrapper Card Style */
+.table-wrapper {
+  margin-top: 1rem;
+  background:transparent;
+  border-radius: 10px;
+  border: none;
+  overflow: hidden;
+}
+
+/* Table Layout */
+.full-width-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px; /* space between rows */
+  font-size: 0.875rem;
+}
+
+/* Header */
+.mat-mdc-header-row {
+  background: #f8fafc;
+}
+
+.mat-mdc-header-cell {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 0.85rem 1.25rem;
+}
+
+/* Remove default Material row structure */
+.mat-mdc-table {
+  border-collapse: separate;
+}
+
+/* Each row as soft card */
+.mat-mdc-row {
+  background: #f9fafb; /* soft off-white */
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+/* Hover effect */
+.mat-mdc-row:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+}
+
+/* Remove default cell borders */
+.mat-mdc-cell {
+  border-bottom: none !important;
+  padding: 1rem 1.25rem;
+  color: #1e293b;
+}
+
+/* Rounded corners */
+.mat-mdc-row .mat-mdc-cell:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  font-weight: 600;
+  color: #6366f1; /* Indigo for Order ID */
+}
+
+.mat-mdc-row .mat-mdc-cell:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Amount column */
+.mat-mdc-cell:nth-child(4) {
+  font-weight: 600;
+  color: #22c55e; /* Green for revenue */
+}
+
+/* Status Chips */
+.status-chip {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 999px !important;
+}
+
+.status-chip.delivered {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+.status-chip.on_route {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+/* Paginator */
+mat-paginator {
+  border-top: 1px solid #f1f5f9;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  background: #ffffff;
+}
+
+/* Horizontal scroll safety */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Mobile adjustments */
+@media (max-width: 900px) {
+
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 0.75rem;
+  }
+
+  .full-width-table {
+    font-size: 0.8rem;
+  }
+}

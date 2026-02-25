@@ -42,6 +42,12 @@
   box-sizing: border-box;
 }
 
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
 @media (max-width: 900px) {
   .page-header {
     padding: 1rem;
